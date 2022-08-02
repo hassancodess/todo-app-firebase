@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
-import { query, collection, onSnapshot } from 'firebase/firestore'
+import {
+  query,
+  collection,
+  onSnapshot,
+  updateDoc,
+  doc,
+} from 'firebase/firestore'
 import db from '../src/firebase'
 import TodoList from './components/todos/TodoList'
 import AddTodo from './components/todos/AddTodo'
@@ -27,6 +33,15 @@ function App() {
     }
   }, [])
 
+  const toggleComplete = async (todo) => {
+    try {
+      const todoRef = doc(db, 'todos', todo.id)
+      await updateDoc(todoRef, { completed: !todo.completed })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='h-screen w-screen p-10 overflow-x-hidden'>
       {/* Card Container */}
@@ -39,7 +54,7 @@ function App() {
         <div className='flex flex-col space-y-6 h-full '>
           <AddTodo />
           {loading && <Spinner />}
-          <TodoList todos={todos} />
+          <TodoList todos={todos} toggleComplete={toggleComplete} />
         </div>
       </div>
     </div>

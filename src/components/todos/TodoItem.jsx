@@ -1,5 +1,5 @@
 import { MdDeleteOutline } from 'react-icons/md'
-function TodoItem({ todo }) {
+function TodoItem({ todo, toggleComplete }) {
   return (
     <div className='bg-neutral text-neutral-content px-4 py-3 rounded-xl flex space-x-4 items-center justify-between max-w-2xl w-full'>
       <div className='flex space-x-3 items-center '>
@@ -8,6 +8,7 @@ function TodoItem({ todo }) {
           type='checkbox'
           class='checkbox checkbox-accent'
           checked={todo.completed ? 'checked' : ''}
+          onChange={() => toggleComplete(todo)}
         />
         {/* Text */}
         <h1 className={todo.completed ? 'line-through' : ''}>{todo.text}</h1>
