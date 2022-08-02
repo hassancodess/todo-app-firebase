@@ -5,6 +5,8 @@ import {
   onSnapshot,
   updateDoc,
   doc,
+  addDoc,
+  deleteDoc,
 } from 'firebase/firestore'
 import db from '../src/firebase'
 import TodoList from './components/todos/TodoList'
@@ -41,6 +43,22 @@ function App() {
       console.log(error)
     }
   }
+  const submitTodo = async (input) => {
+    try {
+      const todoRef = collection(db, 'todos')
+      await addDoc(todoRef, { text: input, completed: false })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const deleteTodo = async (id) => {
+    try {
+      const todoRef = doc(db, 'todos', id)
+      await deleteDoc(todoRef)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <div className='h-screen w-screen p-10 overflow-x-hidden'>
@@ -52,9 +70,13 @@ function App() {
         </h1>
         {/* Add Todo  */}
         <div className='flex flex-col space-y-6 h-full '>
-          <AddTodo />
+          <AddTodo submitTodo={submitTodo} />
           {loading && <Spinner />}
-          <TodoList todos={todos} toggleComplete={toggleComplete} />
+          <TodoList
+            todos={todos}
+            toggleComplete={toggleComplete}
+            deleteTodo={deleteTodo}
+          />
         </div>
       </div>
     </div>
