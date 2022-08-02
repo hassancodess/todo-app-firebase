@@ -1,18 +1,45 @@
+import { useState, useEffect } from 'react'
+import { query, collection, onSnapshot } from 'firebase/firestore'
+import db from '../src/firebase'
 import TodoList from './components/todos/TodoList'
 import AddTodo from './components/todos/AddTodo'
+import Spinner from './components/shared/Spinner'
+
 function App() {
+  // Read Data from Firebase
+  const [todos, setTodos] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    try {
+      const q = query(collection(db, 'todos'))
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        let todoArr = []
+        querySnapshot.forEach((doc) => {
+          todoArr.push({ ...doc.data(), id: doc.id })
+        })
+        setLoading(false)
+        setTodos(todoArr)
+      })
+      return () => unsubscribe()
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
+
   return (
     <div className='h-screen w-screen p-10 overflow-x-hidden'>
       {/* Card Container */}
-      <div className='bg-primary container mx-auto max-w-7xl  px-10 py-10 '>
+      <div className='bg-primary container mx-auto max-w-7xl px-10 py-10 h-full '>
         {/* Heading  */}
-        <h1 className='text-center text-3xl uppercase font-bold tracking-wide text-primary-content mb-6'>
+        <h1 className='text-center text-3xl uppercase font-bold tracking-wide text-primary-content mb-6 '>
           Firebase Todo App
         </h1>
         {/* Add Todo  */}
-        <div className='flex flex-col space-y-6 '>
+        <div className='flex flex-col space-y-6 h-full '>
           <AddTodo />
-          <TodoList />
+          {loading && <Spinner />}
+          <TodoList todos={todos} />
         </div>
       </div>
     </div>
