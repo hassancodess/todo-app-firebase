@@ -7,7 +7,7 @@ function TodoItem({ todo, toggleComplete, deleteTodo }) {
         {/* Checkbox */}
         <input
           type='checkbox'
-          class='checkbox checkbox-accent'
+          className='checkbox checkbox-accent'
           checked={todo.completed ? 'checked' : ''}
           onChange={() => toggleComplete(todo)}
         />
@@ -16,7 +16,7 @@ function TodoItem({ todo, toggleComplete, deleteTodo }) {
       </div>
       {/* Actions */}
       <div>
-        <button class='btn btn-circle ' onClick={() => deleteTodo(todo.id)}>
+        <button className='btn btn-circle ' onClick={() => deleteTodo(todo.id)}>
           <MdDeleteOutline size={22} className='text-error' />
         </button>
       </div>
