@@ -70,7 +70,7 @@ function App() {
     <>
       <div className='h-screen w-screen p-10 overflow-x-hidden'>
         {/* Card Container */}
-        <div className='bg-primary container mx-auto max-w-7xl px-10 py-10 h-full '>
+        <div className='bg-primary container mx-auto max-w-7xl px-10 py-10  '>
           {/* Heading  */}
           <h1 className='text-center text-3xl uppercase font-bold tracking-wide text-primary-content mb-6 '>
             Firebase Todo App
